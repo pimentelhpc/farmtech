@@ -22,14 +22,14 @@ while opcao != "5":
             print("2- Cana")
             tipo = input("Escolha do tipo: ")
 #poderia ter usado o elif em tudo, decidi usar o match case para abordar o capítulo 5.
-# essa função serve para testar igualdade, ele não serve para maior ou menor
+# essa estrutura serve para testar igualdade, ele não serve para maior ou menor
 
             if tipo == "1":
                 largura = float(input("Qual a largura: "))
                 comprimento = float(input("Qual o comprimento: "))
                 nome = "Cafe"
                 area = largura * comprimento
-#se for o tipo 1 o café ele segue com o cálculo específico dessa modadelidade. Usa float
+#se for o tipo 1 o café ele segue com o cálculo específico dessa modalidade. Usa float
 #porque é um número com casas decimais
             else:
                 base = float(input("Qual a base: "))
@@ -43,13 +43,14 @@ while opcao != "5":
             dose = float(input("Qual a dose em ml por m2: "))
             total_litros = (area * dose) / 1000
 #transforma a variável dose em número com casas decimais
-# aplica a fórmula e transforma mililitros em litros
+#aplica a fórmula e transforma mililitros em litros
 
             culturas.append(nome)
             areas.append(area)
             insumos.append(insumo)
             litros.append(total_litros)
 #aqui o comando append salva todos os registros para que não sejam substituídos
+
             print(f"Cultura: {nome} - Area: {area:.2f} m2")
             print(f"Insumo: {insumo} - {total_litros:.2f} litros")
 #quando coloca o f na frente permite que ele fique atento a variáveis dentro das chaves
@@ -62,10 +63,11 @@ while opcao != "5":
             else:
                 for i in range(len(culturas)):
                     print(f"{i} | {culturas[i]} | {areas[i]:.2f} m2 | {insumos[i]} | {litros[i]:.2f} L")
-#agora na opção 2 o comando len conta quantas culturas , se o número for 0 ele apresenta
+#agora na opção 2 o comando len conta quantas culturas, se o número for 0 ele apresenta
 #mensagem de nenhum registro. Else, qualquer coisa diferente de zero dentro de cultura ele mostra
-#a variável i indica a posição da vez, que vai na sequencia do range / Mostra o conteúdo de cada
-#lista
+#a variável i indica a posição da vez, que vai na sequencia do range
+#e mostra o conteúdo de cada lista naquela posição
+
         case "3":
             print("--- ATUALIZAR REGISTRO ---")
 
@@ -77,16 +79,21 @@ while opcao != "5":
                     print(f"{i} | {culturas[i]} | {areas[i]:.2f} m2 | {insumos[i]} | {litros[i]:.2f} L")
 
                 indice = int(input("Qual numero deseja atualizar? "))
-# depois de mostrar a lista, ele pergunta qual registro o usuario quer mudar
-# cria a variavel indice e guarda ali o numero digitado
-# esse numero é a posicao do registro na lista, nao é opcao de menu
-# usa int porque posicao de lista é sempre numero inteiro, nao existe gaveta 1.5
+#depois de mostrar a lista, ele pergunta qual registro o usuario quer mudar
+#cria a variavel indice e guarda ali o numero digitado
+#esse numero é a posicao do registro na lista, nao é opcao de menu
+#usa int porque posicao de lista é sempre numero inteiro, nao existe gaveta 1.5
 
                 if indice >= 0 and indice < len(culturas):
+#confere se o numero digitado existe na lista
+#precisa das duas condicoes: nao pode ser negativo e nao pode passar da ultima posicao
+#sem esse teste o programa quebra com IndexError
+
                     print("1- Café")
                     print("2- Cana")
                     tipo = input("Escolha do tipo: ")
 #apresenta as opções em tela e pede para o usuário escolher
+
                     if tipo == "1":
                         largura = float(input("Qual a largura: "))
                         comprimento = float(input("Qual o comprimento: "))
@@ -99,6 +106,7 @@ while opcao != "5":
                         nome = "Cana"
                         area = (base * altura) / 2
 #Qualquer outra coisa é Cana e ele faz o cálculo específico dessa categoria
+
                     insumo = input("Qual o nome do insumo? ")
                     dose = float(input("Qual a dose em ml por m2: "))
                     total_litros = (area * dose) / 1000
@@ -107,13 +115,18 @@ while opcao != "5":
                     areas[indice] = area
                     insumos[indice] = insumo
                     litros[indice] = total_litros
-# aqui ele troca o conteudo antigo pelo novo, nas 4 listas
-# o indice diz em qual posicao trocar. se o usuario digitou 1, troca na posicao 1
-# é diferente do append: o append cria uma posicao nova no fim,
-# esse aqui só substitui o que ja estava naquela posicao                    print("Registro atualizado com sucesso.")
+#aqui ele troca o conteudo antigo pelo novo, nas 4 listas
+#o indice diz em qual posicao trocar. se o usuario digitou 1, troca na posicao 1
+#é diferente do append: o append cria uma posicao nova no fim,
+#esse aqui só substitui o que ja estava naquela posicao
+
+                    print("Registro atualizado com sucesso.")
 
                 else:
                     print("Numero invalido.")
+#este else responde ao if do indice, por isso fica alinhado com ele
+#cai aqui quando o numero digitado nao existe na lista
+
         case "4":
             print("Deletar registro")
 
@@ -122,3 +135,4 @@ while opcao != "5":
 
         case _:
             print("Opcao invalida!")
+#case _ é o "qualquer outra coisa", equivale ao else do if/elif
