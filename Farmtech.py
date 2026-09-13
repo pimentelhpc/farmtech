@@ -5,6 +5,22 @@ litros = []
 #Até aqui eu abri as listas necessárias
 opcao = ""
 #as aspas coladas indicam um texto vazio
+
+def ler_float(mensagem):
+    while True:
+        try:
+            return float(input(mensagem))
+        except ValueError:
+            print("Valor invalido. Digite um numero (ex: 10 ou 10.5).")
+
+def ler_int(mensagem):
+    while True:
+        try:
+            return int(input(mensagem))
+        except ValueError:
+            print("Valor invalido. Digite um numero inteiro.")
+#funcoes que ficam pedindo o valor de novo enquanto o usuario nao digitar um numero valido
+#assim o programa nao quebra com ValueError quando alguem digita texto no lugar de numero
 while opcao != "5":
     print("1- Cadastrar Cultura")
     print("2- Listar Dados")
@@ -25,22 +41,22 @@ while opcao != "5":
 # essa estrutura serve para testar igualdade, ele não serve para maior ou menor
 
             if tipo == "1":
-                largura = float(input("Qual a largura: "))
-                comprimento = float(input("Qual o comprimento: "))
+                largura = ler_float("Qual a largura: ")
+                comprimento = ler_float("Qual o comprimento: ")
                 nome = "Cafe"
                 area = largura * comprimento
 #se for o tipo 1 o café ele segue com o cálculo específico dessa modalidade. Usa float
 #porque é um número com casas decimais
             else:
-                base = float(input("Qual a base: "))
-                altura = float(input("Qual a altura: "))
+                base = ler_float("Qual a base: ")
+                altura = ler_float("Qual a altura: ")
                 nome = "Cana"
                 area = (base * altura) / 2
 #como só tem duas culturas qualquer outra coisa diferente do café só pode ser a cana
 #ele segue com o cálculo da cana que é diferente da do café
 
             insumo = input("Qual o nome do insumo? ")
-            dose = float(input("Qual a dose em ml por m2: "))
+            dose = ler_float("Qual a dose em ml por m2: ")
             total_litros = (area * dose) / 1000
 #transforma a variável dose em número com casas decimais
 #aplica a fórmula e transforma mililitros em litros
@@ -78,7 +94,7 @@ while opcao != "5":
                 for i in range(len(culturas)):
                     print(f"{i} | {culturas[i]} | {areas[i]:.2f} m2 | {insumos[i]} | {litros[i]:.2f} L")
 
-                indice = int(input("Qual numero deseja atualizar? "))
+                indice = ler_int("Qual numero deseja atualizar? ")
 #depois de mostrar a lista, ele pergunta qual registro o usuario quer mudar
 #cria a variavel indice e guarda ali o numero digitado
 #esse numero é a posicao do registro na lista, nao é opcao de menu
@@ -95,20 +111,20 @@ while opcao != "5":
 #apresenta as opções em tela e pede para o usuário escolher
 
                     if tipo == "1":
-                        largura = float(input("Qual a largura: "))
-                        comprimento = float(input("Qual o comprimento: "))
+                        largura = ler_float("Qual a largura: ")
+                        comprimento = ler_float("Qual o comprimento: ")
                         nome = "Cafe"
                         area = largura * comprimento
 #se for café (item 1) ele faz o cálculo específico do café
                     else:
-                        base = float(input("Qual a base: "))
-                        altura = float(input("Qual a altura: "))
+                        base = ler_float("Qual a base: ")
+                        altura = ler_float("Qual a altura: ")
                         nome = "Cana"
                         area = (base * altura) / 2
 #Qualquer outra coisa é Cana e ele faz o cálculo específico dessa categoria
 
                     insumo = input("Qual o nome do insumo? ")
-                    dose = float(input("Qual a dose em ml por m2: "))
+                    dose = ler_float("Qual a dose em ml por m2: ")
                     total_litros = (area * dose) / 1000
 
                     culturas[indice] = nome
@@ -128,7 +144,30 @@ while opcao != "5":
 #cai aqui quando o numero digitado nao existe na lista
 
         case "4":
-            print("Deletar registro")
+            print("--- DELETAR REGISTRO ---")
+
+            if len(culturas) == 0:
+                print("Nenhum registro cadastrado")
+
+            else:
+                for i in range(len(culturas)):
+                    print(f"{i} | {culturas[i]} | {areas[i]:.2f} m2 | {insumos[i]} | {litros[i]:.2f} L")
+
+                indice = ler_int("Qual numero deseja deletar? ")
+#mesma logica da atualizacao: mostra a lista e pede a posicao a remover
+
+                if indice >= 0 and indice < len(culturas):
+                    culturas.pop(indice)
+                    areas.pop(indice)
+                    insumos.pop(indice)
+                    litros.pop(indice)
+#pop remove o item da posicao indicada e desloca os seguintes, ao contrario do
+#update ele nao troca o conteudo, ele apaga a posicao inteira
+
+                    print("Registro deletado com sucesso.")
+
+                else:
+                    print("Numero invalido.")
 
         case "5":
             print("Sair")
