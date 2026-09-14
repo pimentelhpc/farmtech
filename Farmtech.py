@@ -32,25 +32,36 @@ def exportar_csv(caminho="dados_farmtech.csv"):
         escritor.writerow(["cultura", "area_m2", "insumo", "litros"])
         for i in range(len(culturas)):
             escritor.writerow([culturas[i], areas[i], insumos[i], litros[i]])
-    print(f"Dados exportados para '{caminho}'. Agora as estatisticas estão disponíveis .R.")
+    print(f"Dados exportados para '{caminho}'. Agora e so rodar o estatisticas.R.")
 #percorre as 4 listas na mesma posicao i e escreve uma linha por registro
 #esse arquivo e o que o script em R vai ler para calcular media e desvio padrao
 
 while opcao != "6":
-    print("1- Cadastrar Cultura")
-    print("2- Listar Dados")
-    print("3- Atualizar registro")
-    print("4- Deletar registro")
-    print("5- Exportar dados para CSV (uso no R)")
-    print("6- Sair")
-    opcao = input("Escolha: ")
+    print("")
+    print("=" * 45)
+    print("   FARMTECH SOLUTIONS - GESTAO DE PLANTIO")
+    print("=" * 45)
+    print("CADASTRO E CALCULO")
+    print("  1- Cadastrar Cultura")
+    print("-" * 45)
+    print("CONSULTA E EDICAO")
+    print("  2- Listar Dados")
+    print("  3- Atualizar registro")
+    print("  4- Deletar registro")
+    print("-" * 45)
+    print("EXPORTACAO E SAIDA")
+    print("  5- Exportar dados para CSV (uso no R)")
+    print("  6- Sair")
+    print("=" * 45)
+    opcao = input("Escolha uma opcao: ")
 #Usando while que faz o código rodar sem parar, equanto for verdadeira, só para quando for falsa
 #serve para criar  por exemplo  o menu
 #o "Sair" virou opcao 6 porque a nova opcao 5 (exportar) entrou no meio
     match opcao:
 
         case "1":
-            print("Cadastrar Cultura")
+            print("")
+            print("--- CADASTRAR CULTURA ---")
             print("1- Café")
             print("2- Cana")
             tipo = input("Escolha do tipo: ")
@@ -84,12 +95,15 @@ while opcao != "6":
             litros.append(total_litros)
 #aqui o comando append salva todos os registros para que não sejam substituídos
 
+            print("-" * 30)
             print(f"Cultura: {nome} - Area: {area:.2f} m2")
             print(f"Insumo: {insumo} - {total_litros:.2f} litros")
+            print("Registro cadastrado com sucesso!")
 #quando coloca o f na frente permite que ele fique atento a variáveis dentro das chaves
 #o .2f é estético, define o número de casas decimais apresentados
 
         case "2":
+            print("")
             print("--- REGISTROS CADASTRADOS ---")
             if len(culturas) == 0:
                 print("Nenhum registro cadastrado")
@@ -102,6 +116,7 @@ while opcao != "6":
 #e mostra o conteúdo de cada lista naquela posição
 
         case "3":
+            print("")
             print("--- ATUALIZAR REGISTRO ---")
 
             if len(culturas) == 0:
@@ -161,6 +176,7 @@ while opcao != "6":
 #cai aqui quando o numero digitado nao existe na lista
 
         case "4":
+            print("")
             print("--- DELETAR REGISTRO ---")
 
             if len(culturas) == 0:
@@ -187,12 +203,15 @@ while opcao != "6":
                     print("Numero invalido.")
 
         case "5":
+            print("")
+            print("--- EXPORTAR PARA CSV ---")
             exportar_csv()
 #chama a funcao que grava as 4 listas em dados_farmtech.csv
 #esse arquivo e o que os scripts estatisticas.R e clima.R vao usar depois
 
         case "6":
-            print("Sair")
+            print("")
+            print("Encerrando o FarmTech. Ate a proxima!")
 
         case _:
             print("Opcao invalida!")
