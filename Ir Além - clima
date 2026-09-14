@@ -1,0 +1,48 @@
+# FarmTech Solutions - Consulta a uma API meteorologica (item "Ir alem")
+
+# A API usada e a Open-Meteo (https://open-meteo.com)
+
+# Garante que o pacote jsonlite esta instalado e carregado
+if (!require("jsonlite", character.only = TRUE)) {
+  install.packages("jsonlite")
+  library(jsonlite)
+}
+
+# Endereco fixo com a localizacao da fazenda (Ribeirao Preto - SP).
+# Para outra cidade, e so trocar os numeros de latitude e longitude.
+endereco <- "https://api.open-meteo.com/v1/forecast?latitude=-21.1775&longitude=-47.8103&current=temperature_2m,relative_humidity_2m,precipitation,wind_speed_10m"
+
+# Abre a conexao com a internet e le a resposta como texto
+conexao <- url(endereco)
+resposta_texto <- readLines(conexao, warn = FALSE)
+close(conexao)
+
+# Converte o texto (JSON) em uma lista do R, que da para acessar
+# com $ do mesmo jeito que acessamos colunas de um data frame
+dados_clima <- fromJSON(resposta_texto)
+
+# Acessa os valores atuais dentro da lista retornada pela API
+temperatura   <- dados_clima$current$temperature_2m
+umidade       <- dados_clima$current$relative_humidity_2m
+precipitacao  <- dados_clima$current$precipitation
+vento         <- dados_clima$current$wind_speed_10m
+horario       <- dados_clima$current$time
+
+# Exibe os dados em texto simples e legivel no terminal
+print("================ PREVISAO DO TEMPO ATUAL - Ribeirao Preto - SP ================")
+print(paste0("Horário da leitura   : ", horario))
+print(paste0("Temperatura          : ", temperatura, " C"))
+print(paste0("Umidade relativa     : ", umidade, " %"))
+print(paste0("Precipitação         : ", precipitacao, " mm"))
+print(paste0("Velocidade do vento  : ", vento, " km/h"))
+print("==============================================================================")
+
+# Pequena mensagem util com base no clima (usa apenas o operador
+# de comparacao ">" e a estrutura if/else, ambos conceitos basicos
+# de logica, nao exclusivos de nenhum pacote)
+if (precipitacao > 0) {
+  print("Atenção: há chuva no momento. Considere adiar a aplicação de insumos.")
+} else {
+  print("Sem chuva no momento: condição favoravel para aplicação de insumos.")
+}
+print("==============================================================================")
