@@ -1,0 +1,50 @@
+# FarmTech Solutions - Estatisticas basicas em R
+
+# Le o CSV exportado pelo Python (dados_farmtech.csv) e calcula
+# media e desvio padrao, no geral e por cultura.
+
+# Carrega o dplyr (mesmo pacote do Codigo-fonte 12 do Capitulo 07)
+library(dplyr)
+
+# Le o arquivo CSV gerado pela opcao 5 do menu do Farmtech.py
+dados <- read.csv("dados_farmtech.csv")
+
+# Mostra os dados carregados, do mesmo jeito que o material faz
+# com print(data_frame) logo apos criar ou importar dados
+print("Dados carregados do Python:")
+print(dados)
+
+# Estatisticas gerais (todas as culturas juntas)
+
+# summarize() sozinho (sem group_by antes) resume o data frame inteiro
+# em uma unica linha com as medidas que a gente pedir.
+
+estatisticas_gerais <- dados %>%
+  summarize(
+    media_area    = mean(area_m2),
+    desvio_area   = sd(area_m2),
+    media_litros  = mean(litros),
+    desvio_litros = sd(litros)
+  )
+
+print("Estatisticas gerais (todas as culturas):")
+print(estatisticas_gerais)
+
+
+
+# Estatisticas por cultura (Cafe / Cana)
+
+# agrupa as linhas pela coluna "cultura", e summarize() calcula a media e o
+# desvio padrao dentro de cada grupo separadamente.
+
+estatisticas_por_cultura <- dados %>%
+  group_by(cultura) %>%
+  summarize(
+    media_area    = mean(area_m2),
+    desvio_area   = sd(area_m2),
+    media_litros  = mean(litros),
+    desvio_litros = sd(litros)
+  )
+
+print("Estatisticas por cultura:")
+print(estatisticas_por_cultura)
