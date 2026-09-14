@@ -6,6 +6,10 @@ litros = []
 opcao = ""
 #as aspas coladas indicam um texto vazio
 
+import csv
+#biblioteca padrao do Python para gravar/ler arquivos CSV
+#usada aqui so na opcao de exportar os dados para o R
+
 def ler_float(mensagem):
     while True:
         try:
@@ -21,15 +25,28 @@ def ler_int(mensagem):
             print("Valor invalido. Digite um numero inteiro.")
 #funcoes que ficam pedindo o valor de novo enquanto o usuario nao digitar um numero valido
 #assim o programa nao quebra com ValueError quando alguem digita texto no lugar de numero
-while opcao != "5":
+
+def exportar_csv(caminho="dados_farmtech.csv"):
+    with open(caminho, mode="w", newline="", encoding="utf-8") as arquivo:
+        escritor = csv.writer(arquivo)
+        escritor.writerow(["cultura", "area_m2", "insumo", "litros"])
+        for i in range(len(culturas)):
+            escritor.writerow([culturas[i], areas[i], insumos[i], litros[i]])
+    print(f"Dados exportados para '{caminho}'. Agora as estatisticas estão disponíveis .R.")
+#percorre as 4 listas na mesma posicao i e escreve uma linha por registro
+#esse arquivo e o que o script em R vai ler para calcular media e desvio padrao
+
+while opcao != "6":
     print("1- Cadastrar Cultura")
     print("2- Listar Dados")
     print("3- Atualizar registro")
     print("4- Deletar registro")
-    print("5- Sair")
+    print("5- Exportar dados para CSV (uso no R)")
+    print("6- Sair")
     opcao = input("Escolha: ")
 #Usando while que faz o código rodar sem parar, equanto for verdadeira, só para quando for falsa
 #serve para criar  por exemplo  o menu
+#o "Sair" virou opcao 6 porque a nova opcao 5 (exportar) entrou no meio
     match opcao:
 
         case "1":
@@ -170,6 +187,11 @@ while opcao != "5":
                     print("Numero invalido.")
 
         case "5":
+            exportar_csv()
+#chama a funcao que grava as 4 listas em dados_farmtech.csv
+#esse arquivo e o que os scripts estatisticas.R e clima.R vao usar depois
+
+        case "6":
             print("Sair")
 
         case _:
