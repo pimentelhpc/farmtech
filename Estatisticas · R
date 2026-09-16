@@ -1,0 +1,79 @@
+# FarmTech Solutions - Estatisticas basicas em R
+
+# Le o CSV exportado pelo Python (dados_farmtech.csv) e calcula
+# media e desvio padrao, no geral e por cultura.
+
+options(repos = c(CRAN = "https://cloud.r-project.org"))
+
+# Carrega o dplyr (mesmo pacote do Codigo-fonte 12 do Capitulo 07)
+if (!require("dplyr", character.only = TRUE)) {
+  install.packages("dplyr")
+  library(dplyr)
+}
+
+# Le o arquivo CSV gerado pela opcao 5 do menu do Farmtech.py
+dados <- read.csv("dados_farmtech.csv")
+
+# Cabecalho, so texto literal mesmo (sem funcao nova nenhuma,
+# so print() que ja usamos o tempo todo)
+print("=============================================")
+print("   FARMTECH SOLUTIONS - ESTATISTICAS EM R")
+print("=============================================")
+
+# Mostra os dados carregados, do mesmo jeito que o material faz
+# com print(data_frame) logo apos criar ou importar dados
+
+print("Dados carregados do Python:")
+print("---------------------------------------------")
+print(dados)
+print("---------------------------------------------")
+
+# Estatisticas gerais (todas as culturas juntas)
+estatisticas_gerais <- dados %>%
+  summarize(
+    media_area    = round(mean(area_m2), 2),
+    desvio_area   = round(sd(area_m2), 2),
+    media_litros  = round(mean(litros), 2),
+    desvio_litros = round(sd(litros), 2)
+  )
+
+# as.data.frame() converte a tibble (formato que o summarize() devolve)
+# em um data frame comum, que imprime sem as anotacoes de tipo
+# (aquele "<chr>", "<dbl>" e a linha "# A tibble") - so a tabela limpa
+estatisticas_gerais <- as.data.frame(estatisticas_gerais)
+
+# colnames() renomeia as colunas para nomes mais legiveis.
+# Essa e a mesma funcao do Capitulo 07, Codigo-fonte 5
+# ("Renomear uma variavel em R")
+colnames(estatisticas_gerais) <- c("Media Area (m2)", "Desvio Area", "Media Litros", "Desvio Litros")
+
+print("Estatisticas gerais (todas as culturas):")
+print("---------------------------------------------")
+print(estatisticas_gerais)
+print("---------------------------------------------")
+
+
+# -----------------------------------------------------------------
+# Estatisticas por cultura (Cafe / Cana)
+# -----------------------------------------------------------------
+# Aqui e a mesma estrutura do Codigo-fonte 12: group_by() agrupa as
+# linhas pela coluna "cultura", e summarize() calcula a media e o
+# desvio padrao dentro de cada grupo separadamente.
+
+estatisticas_por_cultura <- dados %>%
+  group_by(cultura) %>%
+  summarize(
+    media_area    = round(mean(area_m2), 2),
+    desvio_area   = round(sd(area_m2), 2),
+    media_litros  = round(mean(litros), 2),
+    desvio_litros = round(sd(litros), 2)
+  )
+
+estatisticas_por_cultura <- as.data.frame(estatisticas_por_cultura)
+
+colnames(estatisticas_por_cultura) <- c("Cultura", "Media Area (m2)", "Desvio Area", "Media Litros", "Desvio Litros")
+
+print("Estatisticas por cultura:")
+print("---------------------------------------------")
+print(estatisticas_por_cultura)
+print("=============================================")
