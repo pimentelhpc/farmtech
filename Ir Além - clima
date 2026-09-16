@@ -1,8 +1,10 @@
 # FarmTech Solutions - Consulta a uma API meteorologica (item "Ir alem")
 
-# A API usada e a Open-Meteo (https://open-meteo.com)
+# A API usada e a Open-Meteo (https://open-meteo.com), publica e
+# gratuita, sem necessidade de cadastro ou senha.
 
-# Garante que o pacote jsonlite esta instalado e carregado
+options(repos = c(CRAN = "https://cloud.r-project.org"))
+
 if (!require("jsonlite", character.only = TRUE)) {
   install.packages("jsonlite")
   library(jsonlite)
@@ -29,20 +31,24 @@ vento         <- dados_clima$current$wind_speed_10m
 horario       <- dados_clima$current$time
 
 # Exibe os dados em texto simples e legivel no terminal
-print("================ PREVISAO DO TEMPO ATUAL - Ribeirao Preto - SP ================")
-print(paste0("Horário da leitura   : ", horario))
+print("=============================================")
+print("   FARMTECH SOLUTIONS - CLIMA EM R")
+print("=============================================")
+print("Previsao do tempo atual - Ribeirao Preto - SP")
+print("---------------------------------------------")
+print(paste0("Horario da leitura   : ", horario))
 print(paste0("Temperatura          : ", temperatura, " C"))
 print(paste0("Umidade relativa     : ", umidade, " %"))
 print(paste0("Precipitação         : ", precipitacao, " mm"))
 print(paste0("Velocidade do vento  : ", vento, " km/h"))
-print("==============================================================================")
+print("---------------------------------------------")
 
 # Pequena mensagem util com base no clima (usa apenas o operador
 # de comparacao ">" e a estrutura if/else, ambos conceitos basicos
 # de logica, nao exclusivos de nenhum pacote)
 if (precipitacao > 0) {
-  print("Atenção: há chuva no momento. Considere adiar a aplicação de insumos.")
+  print("Atenção: há chuva no momento. Considere adiar a aplicacao de insumos.")
 } else {
-  print("Sem chuva no momento: condição favoravel para aplicação de insumos.")
+  print("Sem chuva no momento: condição favorável para aplicação de insumos.")
 }
-print("==============================================================================")
+print("=============================================")
